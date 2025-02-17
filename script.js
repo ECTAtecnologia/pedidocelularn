@@ -20,17 +20,38 @@ window.onload = function() {
         e.target.dataset.valor = valor;
     });
 
-    // Carrega o nome do estabelecimento se existir
-    const savedName = localStorage.getItem('establishmentName');
-    if (savedName) {
-        document.getElementById('establishment-name').value = savedName;
-    }
+    // Inicializa o nome do estabelecimento
+    initEstablishmentName();
 }
 
 // Inicializa o EmailJS
 (function() {
     emailjs.init("yBK-sZTSf2ez5JgMu");
 })();
+
+// Função para inicializar o nome do estabelecimento
+function initEstablishmentName() {
+    const establishmentForm = document.getElementById('establishment-form');
+    const savedName = localStorage.getItem('establishmentName');
+
+    if (savedName) {
+        // Se já existe um nome salvo, apenas mostra
+        establishmentForm.innerHTML = `
+            <div class="form-group saved-name">
+                <h2>Estabelecimento: ${savedName}</h2>
+            </div>
+        `;
+    } else {
+        // Se não existe nome salvo, mostra o formulário
+        establishmentForm.innerHTML = `
+            <div class="form-group">
+                <label for="establishment-name">Nome do Estabelecimento:</label>
+                <input type="text" class="form-control" id="establishment-name" placeholder="Digite o nome do estabelecimento">
+                <button onclick="saveEstablishmentName()" class="btn btn-primary mt-2">Salvar</button>
+            </div>
+        `;
+    }
+}
 
 // Função para salvar o nome do estabelecimento
 function saveEstablishmentName() {
@@ -39,7 +60,12 @@ function saveEstablishmentName() {
     
     if (name) {
         localStorage.setItem('establishmentName', name);
-        alert('Nome do estabelecimento salvo com sucesso!');
+        const establishmentForm = document.getElementById('establishment-form');
+        establishmentForm.innerHTML = `
+            <div class="form-group saved-name">
+                <h2>Estabelecimento: ${name}</h2>
+            </div>
+        `;
     } else {
         alert('Por favor, digite um nome válido');
     }
@@ -53,7 +79,7 @@ function imprimirPedido() {
     const pagamento = document.getElementById('pagamento').value;
     const endereco = document.getElementById('endereco').value;
     const valor = document.getElementById('valor').value;
-    const estabelecimento = document.getElementById('establishment-name').value || 'Estabelecimento';
+    const estabelecimento = localStorage.getItem('establishmentName') || 'Estabelecimento';
 
     // Verifica se todos os campos estão preenchidos
     if (!nome || !telefone || !produtos || !pagamento || !endereco || !valor) {

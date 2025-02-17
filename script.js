@@ -12,9 +12,9 @@ window.onload = function() {
     if (savedName) {
         document.getElementById('establishment-name').value = savedName;
         document.getElementById('establishment-form').innerHTML = `
-            <div class="form-group saved-name">
-                <h2>Estabelecimento: ${savedName}</h2>
-                <button onclick="resetEstablishmentName()" class="btn btn-sm btn-secondary">Alterar Nome</button>
+            <div class="establishment-header">
+                <h2 style="font-size: 1rem;">Estabelecimento: ${savedName}</h2>
+                <button onclick="resetEstablishmentName()" class="btn btn-sm btn-secondary" style="font-size: 0.8rem;">Alterar</button>
             </div>
         `;
     }
@@ -33,9 +33,9 @@ function saveEstablishmentName() {
     if (name) {
         localStorage.setItem('establishmentName', name);
         document.getElementById('establishment-form').innerHTML = `
-            <div class="form-group saved-name">
-                <h2>Estabelecimento: ${name}</h2>
-                <button onclick="resetEstablishmentName()" class="btn btn-sm btn-secondary">Alterar Nome</button>
+            <div class="establishment-header">
+                <h2 style="font-size: 1rem;">Estabelecimento: ${name}</h2>
+                <button onclick="resetEstablishmentName()" class="btn btn-sm btn-secondary" style="font-size: 0.8rem;">Alterar</button>
             </div>
         `;
     } else {

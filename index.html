@@ -11,7 +11,11 @@
 </head>
 <body>
     <div id="establishment-form" class="container mt-4">
-        <!-- Será preenchido via JavaScript -->
+        <div class="form-group">
+            <label for="establishment-name">Nome do Estabelecimento:</label>
+            <input type="text" class="form-control" id="establishment-name" placeholder="Digite o nome do estabelecimento">
+            <button onclick="saveEstablishmentName()" class="btn btn-primary mt-2">Salvar</button>
+        </div>
     </div>
 
     <h2>Pedido do Cliente</h2>
@@ -50,7 +54,7 @@
 
         <div class="form-group">
             <label for="valor">Valor Total:</label>
-            <input type="text" id="valor" required>
+            <input type="number" inputmode="numeric" id="valor" required>
         </div>
 
         <button type="button" onclick="imprimirPedido()">Enviar e Imprimir Pedido</button>

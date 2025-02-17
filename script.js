@@ -1,8 +1,3 @@
-// Inicializa o EmailJS (substitua "SEU_USER_ID" pelo seu ID real do EmailJS)
-(function() {
-    emailjs.init("SEU_USER_ID");
-})();
-
 window.onload = function() {
     // Máscara para telefone
     var telefoneInput = document.getElementById('telefone');
@@ -26,6 +21,11 @@ window.onload = function() {
     });
 }
 
+// Inicializa o EmailJS
+(function() {
+    emailjs.init("yBK-sZTSf2ez5JgMu");
+})();
+
 function imprimirPedido() {
     // Coleta os dados do formulário
     const nome = document.getElementById('nome').value;
@@ -36,8 +36,14 @@ function imprimirPedido() {
     const valor = document.getElementById('valor').value;
     const estabelecimento = localStorage.getItem('establishmentName') || 'Estabelecimento';
 
+    // Verifica se todos os campos estão preenchidos
+    if (!nome || !telefone || !produtos || !pagamento || !endereco || !valor) {
+        alert('Por favor, preencha todos os campos');
+        return;
+    }
+
     // Envia o email
-    emailjs.send("service_id", "template_id", {
+    emailjs.send("service_2frhpqp", "template_29ewlfj", {
         estabelecimento: estabelecimento,
         nome_cliente: nome,
         telefone: telefone,

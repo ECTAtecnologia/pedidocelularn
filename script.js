@@ -9,16 +9,7 @@ window.onload = function() {
         precision: 2,
         separator: ',',
         delimiter: '.',
-        unit: 'R$ ',
-        zeroCents: false
-    });
-
-    // Ajuste para garantir valor numérico correto ao imprimir
-    valorInput.addEventListener('change', function(e) {
-        let valor = e.target.value.replace('R$ ', '')
-            .replace('.', '')
-            .replace(',', '.');
-        e.target.dataset.valor = valor;
+        unit: 'R$ '
     });
 
     // ... resto do código permanece igual ...

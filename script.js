@@ -1,4 +1,7 @@
 window.onload = function() {
+    // Inicializa o EmailJS primeiro
+    emailjs.init("yBK-sZTSf2ez5JgMu");
+
     // Máscara para telefone
     var telefoneInput = document.getElementById('telefone');
     VMasker(telefoneInput).maskPattern('(99) 99999-9999');
@@ -19,11 +22,6 @@ window.onload = function() {
         `;
     }
 }
-
-// Inicializa o EmailJS com sua chave pública
-(function() {
-    emailjs.init("yBK-sZTSf2ez5JgMu"); // Simplificando a inicialização
-})();
 
 // Função para salvar o nome do estabelecimento
 function saveEstablishmentName() {
@@ -92,9 +90,6 @@ function imprimirPedido() {
 
         // Envia o email com confirmação
         emailjs.send("service_2frhpqp", "template_29ewlfj", {
-            to_email: "renanrollo@ecta.com.br",
-            from_name: estabelecimento,
-            to_name: "Administrador",
             estabelecimento: estabelecimento,
             nome_cliente: nome,
             telefone: telefone,
@@ -105,12 +100,12 @@ function imprimirPedido() {
             data: new Date().toLocaleString()
         }).then(
             function(response) {
-                console.log("Email enviado:", response);
+                console.log("Email enviado com sucesso:", response);
                 limparFormulario();
             },
             function(error) {
                 console.error("Erro ao enviar email:", error);
-                console.error("Detalhes do erro:", error.text);
+                alert("Erro ao enviar email. Verifique o console para mais detalhes.");
                 limparFormulario();
             }
         );

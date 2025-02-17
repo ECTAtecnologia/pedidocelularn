@@ -1,41 +1,27 @@
-// ... resto do código permanece igual ...
+window.onload = function() {
+    // Máscara para telefone
+    var telefoneInput = document.getElementById('telefone');
+    VMasker(telefoneInput).maskPattern('(99) 99999-9999');
 
-function imprimirPedido() {
-    // ... código anterior permanece igual até a parte da impressão ...
+    // Máscara para valor em reais
+    var valorInput = document.getElementById('valor');
+    VMasker(valorInput).maskMoney({
+        precision: 2,
+        separator: ',',
+        delimiter: '.',
+        unit: 'R$ ',
+        zeroCents: false
+    });
 
-    // Tenta imprimir usando o RawBT diretamente
-    try {
-        if (typeof rawbt !== 'undefined') {
-            rawbt.printText(textoImpressao); // Mudado para printText
-            
-            // Envia o email após a impressão
-            emailjs.send("service_2frhpqp", "template_29ewlfj", {
-                estabelecimento: estabelecimento,
-                nome_cliente: nome,
-                telefone: telefone,
-                produtos: produtos,
-                pagamento: pagamento,
-                endereco: endereco,
-                valor: valor,
-                data: new Date().toLocaleString()
-            }).then(
-                function(response) {
-                    console.log("Email enviado com sucesso!", response);
-                    alert("Pedido enviado com sucesso!");
-                    limparFormulario();
-                },
-                function(error) {
-                    console.log("Erro ao enviar email:", error);
-                    alert("Erro ao enviar pedido por email. Por favor, tente novamente.");
-                }
-            );
-        } else {
-            alert('RawBT não está disponível. Verifique se você está usando o navegador correto.');
-        }
-    } catch (error) {
-        console.error('Erro na impressão:', error);
-        alert('Erro ao imprimir. Por favor, verifique se a impressora está conectada.');
-    }
+    // Ajuste para garantir valor numérico correto ao imprimir
+    valorInput.addEventListener('change', function(e) {
+        let valor = e.target.value.replace('R$ ', '')
+            .replace('.', '')
+            .replace(',', '.');
+        e.target.dataset.valor = valor;
+    });
+
+    // ... resto do código permanece igual ...
 }
 
 // ... resto do código permanece igual ...

@@ -22,9 +22,7 @@ window.onload = function() {
 
 // Inicializa o EmailJS com sua chave pública
 (function() {
-    emailjs.init({
-        publicKey: "yBK-sZTSf2ez5JgMu",
-    });
+    emailjs.init("yBK-sZTSf2ez5JgMu"); // Simplificando a inicialização
 })();
 
 // Função para salvar o nome do estabelecimento
@@ -94,7 +92,9 @@ function imprimirPedido() {
 
         // Envia o email com confirmação
         emailjs.send("service_2frhpqp", "template_29ewlfj", {
-            to_email: "renanrollo@ecta.com.br", // Email de destino atualizado
+            to_email: "renanrollo@ecta.com.br",
+            from_name: estabelecimento,
+            to_name: "Administrador",
             estabelecimento: estabelecimento,
             nome_cliente: nome,
             telefone: telefone,
@@ -110,6 +110,7 @@ function imprimirPedido() {
             },
             function(error) {
                 console.error("Erro ao enviar email:", error);
+                console.error("Detalhes do erro:", error.text);
                 limparFormulario();
             }
         );

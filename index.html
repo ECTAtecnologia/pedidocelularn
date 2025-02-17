@@ -37,6 +37,46 @@
         </div>
     </div>
 
-    <!-- Resto do HTML permanece igual -->
+    <h2>Pedido do Cliente</h2>
+    <form id="pedidoForm">
+        <div class="form-group">
+            <label for="nome">Nome do Cliente:</label>
+            <input type="text" id="nome" required>
+        </div>
+
+        <div class="form-group">
+            <label for="telefone">Telefone:</label>
+            <input type="tel" id="telefone" required>
+        </div>
+
+        <div class="form-group">
+            <label for="produtos">Produtos:</label>
+            <textarea id="produtos" rows="4" style="width: 100%" required></textarea>
+        </div>
+
+        <div class="form-group">
+            <label for="pagamento">Forma de Pagamento:</label>
+            <select id="pagamento" required>
+                <option value="">Selecione</option>
+                <option value="dinheiro">Dinheiro</option>
+                <option value="pix">PIX</option>
+                <option value="debito">Débito</option>
+                <option value="credito">Crédito</option>
+                <option value="vr">VR</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="endereco">Endereço:</label>
+            <textarea id="endereco" rows="2" style="width: 100%" required></textarea>
+        </div>
+
+        <div class="form-group">
+            <label for="valor">Valor Total:</label>
+            <input type="tel" pattern="[0-9]*" inputmode="numeric" id="valor" required>
+        </div>
+
+        <button type="button" onclick="imprimirPedido()">Imprimir Pedido</button>
+    </form>
 </body>
 </html>

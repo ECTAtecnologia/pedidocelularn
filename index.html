@@ -11,7 +11,11 @@
 </head>
 <body>
     <div id="establishment-form" class="container mt-4">
-        <!-- O conteúdo será preenchido via JavaScript -->
+        <div class="form-group">
+            <label for="establishment-name">Nome do Estabelecimento:</label>
+            <input type="text" class="form-control" id="establishment-name" placeholder="Digite o nome do estabelecimento">
+            <button class="btn btn-primary mt-2" onclick="saveEstablishmentName()">Salvar</button>
+        </div>
     </div>
 
     <h2>Pedido do Cliente</h2>

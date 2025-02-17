@@ -1,21 +1,63 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-<!-- ... cabeçalho permanece igual ... -->
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema de Pedidos</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://unpkg.com/vanilla-masker@1.1.1/lib/vanilla-masker.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+    <script src="script.js"></script>
+</head>
 <body>
-    <!-- ... código anterior permanece igual ... -->
-
-    <div class="form-group">
-        <label for="telefone">Telefone:</label>
-        <input type="tel" inputmode="numeric" pattern="[0-9]*" id="telefone" required>
+    <div id="establishment-form" class="container mt-4">
+        <div class="form-group">
+            <label for="establishment-name">Nome do Estabelecimento:</label>
+            <input type="text" class="form-control" id="establishment-name" placeholder="Digite o nome do estabelecimento">
+            <button onclick="saveEstablishmentName()" class="btn btn-primary mt-2">Salvar</button>
+        </div>
     </div>
 
-    <!-- ... outros campos permanecem iguais ... -->
+    <h2>Pedido do Cliente</h2>
+    <form id="pedidoForm">
+        <div class="form-group">
+            <label for="nome">Nome do Cliente:</label>
+            <input type="text" id="nome" required>
+        </div>
 
-    <div class="form-group">
-        <label for="valor">Valor Total:</label>
-        <input type="text" inputmode="decimal" id="valor" required>
-    </div>
+        <div class="form-group">
+            <label for="telefone">Telefone:</label>
+            <input type="tel" pattern="[0-9]*" id="telefone" required>
+        </div>
 
-    <!-- ... resto do código permanece igual ... -->
+        <div class="form-group">
+            <label for="produtos">Produtos:</label>
+            <textarea id="produtos" rows="4" style="width: 100%" required></textarea>
+        </div>
+
+        <div class="form-group">
+            <label for="pagamento">Forma de Pagamento:</label>
+            <select id="pagamento" required>
+                <option value="">Selecione</option>
+                <option value="dinheiro">Dinheiro</option>
+                <option value="pix">PIX</option>
+                <option value="debito">Débito</option>
+                <option value="credito">Crédito</option>
+                <option value="vr">VR</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="endereco">Endereço:</label>
+            <textarea id="endereco" rows="2" style="width: 100%" required></textarea>
+        </div>
+
+        <div class="form-group">
+            <label for="valor">Valor Total:</label>
+            <input type="text" pattern="[0-9]*" id="valor" required>
+        </div>
+
+        <button type="button" onclick="imprimirPedido()">Enviar e Imprimir Pedido</button>
+    </form>
 </body>
 </html>

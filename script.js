@@ -20,9 +20,11 @@ window.onload = function() {
     }
 }
 
-// Inicializa o EmailJS
+// Inicializa o EmailJS com sua chave pública
 (function() {
-    emailjs.init("yBK-sZTSf2ez5JgMu");
+    emailjs.init({
+        publicKey: "yBK-sZTSf2ez5JgMu",
+    });
 })();
 
 // Função para salvar o nome do estabelecimento
@@ -92,6 +94,7 @@ function imprimirPedido() {
 
         // Envia o email com confirmação
         emailjs.send("service_2frhpqp", "template_29ewlfj", {
+            to_email: "seu-email@exemplo.com", // Adicione o email de destino
             estabelecimento: estabelecimento,
             nome_cliente: nome,
             telefone: telefone,
@@ -107,7 +110,6 @@ function imprimirPedido() {
             },
             function(error) {
                 console.error("Erro ao enviar email:", error);
-                // Ainda limpa o formulário mesmo se o email falhar
                 limparFormulario();
             }
         );

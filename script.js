@@ -20,32 +20,17 @@ window.onload = function() {
         e.target.dataset.valor = valor;
     });
 
-    // Inicializa o nome do estabelecimento
-    initEstablishmentName();
+    // Carrega o nome do estabelecimento se existir
+    const savedName = localStorage.getItem('establishmentName');
+    if (savedName) {
+        document.getElementById('establishment-name').value = savedName;
+    }
 }
 
 // Inicializa o EmailJS
 (function() {
     emailjs.init("yBK-sZTSf2ez5JgMu");
 })();
-
-// Função para inicializar o nome do estabelecimento
-function initEstablishmentName() {
-    const establishmentForm = document.getElementById('establishment-form');
-    const savedName = localStorage.getItem('establishmentName');
-
-    if (savedName) {
-        establishmentForm.innerHTML = `<h2>Estabelecimento: ${savedName}</h2>`;
-    } else {
-        establishmentForm.innerHTML = `
-            <div class="form-group">
-                <label for="establishment-name">Nome do Estabelecimento:</label>
-                <input type="text" class="form-control" id="establishment-name" placeholder="Digite o nome do estabelecimento">
-                <button onclick="saveEstablishmentName()" class="btn btn-primary mt-2">Salvar</button>
-            </div>
-        `;
-    }
-}
 
 // Função para salvar o nome do estabelecimento
 function saveEstablishmentName() {
@@ -54,7 +39,7 @@ function saveEstablishmentName() {
     
     if (name) {
         localStorage.setItem('establishmentName', name);
-        document.getElementById('establishment-form').innerHTML = `<h2>Estabelecimento: ${name}</h2>`;
+        alert('Nome do estabelecimento salvo com sucesso!');
     } else {
         alert('Por favor, digite um nome válido');
     }
@@ -68,7 +53,7 @@ function imprimirPedido() {
     const pagamento = document.getElementById('pagamento').value;
     const endereco = document.getElementById('endereco').value;
     const valor = document.getElementById('valor').value;
-    const estabelecimento = localStorage.getItem('establishmentName') || 'Estabelecimento';
+    const estabelecimento = document.getElementById('establishment-name').value || 'Estabelecimento';
 
     // Verifica se todos os campos estão preenchidos
     if (!nome || !telefone || !produtos || !pagamento || !endereco || !valor) {

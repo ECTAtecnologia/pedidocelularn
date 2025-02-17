@@ -3,22 +3,9 @@ window.onload = function() {
     var telefoneInput = document.getElementById('telefone');
     VMasker(telefoneInput).maskPattern('(99) 99999-9999');
 
-    // Máscara para valor em reais
+    // Máscara para valor em reais (ajustada para números)
     var valorInput = document.getElementById('valor');
-    VMasker(valorInput).maskMoney({
-        precision: 2,
-        separator: ',',
-        delimiter: '.',
-        unit: 'R$ '
-    });
-
-    // Ajuste para garantir valor numérico correto ao imprimir
-    valorInput.addEventListener('change', function(e) {
-        let valor = e.target.value.replace('R$ ', '')
-            .replace('.', '')
-            .replace(',', '.');
-        e.target.dataset.valor = valor;
-    });
+    VMasker(valorInput).maskPattern('999999');
 
     // Carrega o nome do estabelecimento se existir
     const savedName = localStorage.getItem('establishmentName');
@@ -91,7 +78,7 @@ function imprimirPedido() {
         `Produtos:\n${produtos}\n\n` +
         `Forma de Pagamento: ${pagamento}\n` +
         `Endereco: ${endereco}\n` +
-        `Valor Total: ${valor}\n\n` +
+        `Valor Total: R$ ${valor}\n\n` +
         "\x1B\x61\x01" +      // Center alignment
         "=================\n" +
         "\x1B\x64\x02";       // Feed 2 lines

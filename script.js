@@ -19,12 +19,46 @@ window.onload = function() {
             .replace(',', '.');
         e.target.dataset.valor = valor;
     });
+
+    // Inicializa o nome do estabelecimento
+    initEstablishmentName();
 }
 
 // Inicializa o EmailJS
 (function() {
     emailjs.init("yBK-sZTSf2ez5JgMu");
 })();
+
+// Função para inicializar o nome do estabelecimento
+function initEstablishmentName() {
+    const establishmentForm = document.getElementById('establishment-form');
+    const savedName = localStorage.getItem('establishmentName');
+
+    if (savedName) {
+        establishmentForm.innerHTML = `<h2>Estabelecimento: ${savedName}</h2>`;
+    } else {
+        establishmentForm.innerHTML = `
+            <div class="form-group">
+                <label for="establishment-name">Nome do Estabelecimento:</label>
+                <input type="text" class="form-control" id="establishment-name" placeholder="Digite o nome do estabelecimento">
+                <button onclick="saveEstablishmentName()" class="btn btn-primary mt-2">Salvar</button>
+            </div>
+        `;
+    }
+}
+
+// Função para salvar o nome do estabelecimento
+function saveEstablishmentName() {
+    const input = document.getElementById('establishment-name');
+    const name = input.value.trim();
+    
+    if (name) {
+        localStorage.setItem('establishmentName', name);
+        document.getElementById('establishment-form').innerHTML = `<h2>Estabelecimento: ${name}</h2>`;
+    } else {
+        alert('Por favor, digite um nome válido');
+    }
+}
 
 function imprimirPedido() {
     // Coleta os dados do formulário
@@ -112,30 +146,3 @@ function imprimirPedido() {
         document.getElementById('nome').focus();
     }
 }
-
-// Função para verificar e gerenciar o nome do estabelecimento
-function handleEstablishmentName() {
-    const establishmentForm = document.getElementById('establishment-form');
-    const establishmentInput = document.getElementById('establishment-name');
-    const saveButton = document.getElementById('save-establishment');
-    
-    // Verifica se já existe um nome salvo
-    const savedName = localStorage.getItem('establishmentName');
-    
-    if (savedName) {
-        establishmentForm.innerHTML = `<h2>Estabelecimento: ${savedName}</h2>`;
-    } else {
-        saveButton.addEventListener('click', () => {
-            const name = establishmentInput.value.trim();
-            if (name) {
-                localStorage.setItem('establishmentName', name);
-                establishmentForm.innerHTML = `<h2>Estabelecimento: ${name}</h2>`;
-            } else {
-                alert('Por favor, digite um nome válido');
-            }
-        });
-    }
-}
-
-// Chama a função quando a página carregar
-document.addEventListener('DOMContentLoaded', handleEstablishmentName);

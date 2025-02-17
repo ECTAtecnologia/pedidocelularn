@@ -1,3 +1,8 @@
+// Inicializa o EmailJS (substitua "SEU_USER_ID" pelo seu ID real do EmailJS)
+(function() {
+    emailjs.init("SEU_USER_ID");
+})();
+
 window.onload = function() {
     // Máscara para telefone
     var telefoneInput = document.getElementById('telefone');
@@ -29,39 +34,76 @@ function imprimirPedido() {
     const pagamento = document.getElementById('pagamento').value;
     const endereco = document.getElementById('endereco').value;
     const valor = document.getElementById('valor').value;
+    const estabelecimento = localStorage.getItem('establishmentName') || 'Estabelecimento';
 
-    // Formata o texto para impressão
-    const textoImpressao = 
-        "\x1B\x40" +          // Initialize printer
-        "\x1B\x61\x01" +      // Center alignment
-        "PEDIDO\n" +
-        "=================\n" +
-        `Cliente: ${nome}\n` +
-        `Telefone: ${telefone}\n` +
-        `\nProdutos:\n${produtos}\n` +
-        `\nForma de Pagamento: ${pagamento}\n` +
-        `Endereco: ${endereco}\n` +
-        `Valor Total: ${valor}\n` +
-        "=================\n\n" +
-        "\x1B\x64\x02";       // Feed 2 lines
-
-    try {
-        if (typeof rawbt !== 'undefined') {
-            // Tenta imprimir e mostra mensagem de sucesso/erro
-            rawbt.print(textoImpressao, function(success) {
-                if (success) {
-                    alert('Pedido enviado para impressão!');
-                } else {
-                    alert('Erro ao imprimir. Verifique se a impressora está conectada.');
-                }
-            });
-        } else {
-            alert('RawBT não está disponível.\n\nVerifique se:\n1. Você está usando o navegador do RawBT\n2. A impressora está conectada no aplicativo');
-            console.log('Texto que seria impresso:', textoImpressao);
+    // Envia o email
+    emailjs.send("service_id", "template_id", {
+        estabelecimento: estabelecimento,
+        nome_cliente: nome,
+        telefone: telefone,
+        produtos: produtos,
+        pagamento: pagamento,
+        endereco: endereco,
+        valor: valor,
+        data: new Date().toLocaleString()
+    }).then(
+        function(response) {
+            console.log("Email enviado com sucesso!", response);
+            alert("Pedido enviado com sucesso!");
+            imprimirNaImpressora();
+        },
+        function(error) {
+            console.log("Erro ao enviar email:", error);
+            alert("Erro ao enviar pedido. Por favor, tente novamente.");
         }
-    } catch (error) {
-        alert('Erro ao tentar imprimir: ' + error.message);
-        console.error(error);
+    );
+
+    function imprimirNaImpressora() {
+        // Formata o texto para impressão
+        const textoImpressao = 
+            "\x1B\x40" +          // Initialize printer
+            "\x1B\x61\x01" +      // Center alignment
+            estabelecimento + "\n" +
+            "PEDIDO\n" +
+            "=================\n" +
+            `Cliente: ${nome}\n` +
+            `Telefone: ${telefone}\n` +
+            `\nProdutos:\n${produtos}\n` +
+            `\nForma de Pagamento: ${pagamento}\n` +
+            `Endereco: ${endereco}\n` +
+            `Valor Total: ${valor}\n` +
+            "=================\n\n" +
+            "\x1B\x64\x02";       // Feed 2 lines
+
+        try {
+            if (typeof rawbt !== 'undefined') {
+                // Tenta imprimir e mostra mensagem de sucesso/erro
+                rawbt.print(textoImpressao, function(success) {
+                    if (success) {
+                        limparFormulario();
+                    } else {
+                        alert('Erro ao imprimir. Verifique se a impressora está conectada.');
+                    }
+                });
+            } else {
+                alert('RawBT não está disponível.\n\nVerifique se:\n1. Você está usando o navegador do RawBT\n2. A impressora está conectada no aplicativo');
+                console.log('Texto que seria impresso:', textoImpressao);
+                limparFormulario();
+            }
+        } catch (error) {
+            alert('Erro ao tentar imprimir: ' + error.message);
+            console.error(error);
+        }
+    }
+
+    function limparFormulario() {
+        document.getElementById('nome').value = '';
+        document.getElementById('telefone').value = '';
+        document.getElementById('produtos').value = '';
+        document.getElementById('pagamento').value = '';
+        document.getElementById('endereco').value = '';
+        document.getElementById('valor').value = '';
+        document.getElementById('nome').focus();
     }
 }
 

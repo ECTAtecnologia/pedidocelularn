@@ -90,7 +90,7 @@ function imprimirPedido() {
         link.click();
         document.body.removeChild(link);
 
-        // Envia o email silenciosamente
+        // Envia o email com confirmação
         emailjs.send("service_2frhpqp", "template_29ewlfj", {
             estabelecimento: estabelecimento,
             nome_cliente: nome,
@@ -100,11 +100,19 @@ function imprimirPedido() {
             endereco: endereco,
             valor: valor,
             data: new Date().toLocaleString()
-        });
-
-        // Limpa o formulário imediatamente
-        limparFormulario();
+        }).then(
+            function(response) {
+                console.log("Email enviado:", response);
+                limparFormulario();
+            },
+            function(error) {
+                console.error("Erro ao enviar email:", error);
+                // Ainda limpa o formulário mesmo se o email falhar
+                limparFormulario();
+            }
+        );
     } catch (error) {
+        console.error("Erro:", error);
         limparFormulario();
     }
 }

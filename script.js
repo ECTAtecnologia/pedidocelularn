@@ -1,7 +1,4 @@
 window.onload = function() {
-    // Inicializa o EmailJS primeiro
-    emailjs.init("yBK-sZTSf2ez5JgMu");
-
     // Máscara para telefone
     var telefoneInput = document.getElementById('telefone');
     VMasker(telefoneInput).maskPattern('(99) 99999-9999');
@@ -93,27 +90,30 @@ function imprimirPedido() {
         link.click();
         document.body.removeChild(link);
 
-        // Envia o email com confirmação
-        emailjs.send("service_2frhpqp", "template_29ewlfj", {
-            estabelecimento: estabelecimento,
-            nome_cliente: nome,
-            telefone: telefone,
-            produtos: produtos,
-            pagamento: pagamento,
-            endereco: endereco,
-            valor: valor,
-            data: new Date().toLocaleString()
-        }).then(
-            function(response) {
-                console.log("Email enviado com sucesso:", response);
+        // Envia o email usando o serviço da ECTA
+        const mensagemEmail = `
+Novo pedido registrado:
+
+Estabelecimento: ${estabelecimento}
+Nome do Cliente: ${nome}
+Telefone: ${telefone}
+Produtos: ${produtos}
+Forma de Pagamento: ${pagamento}
+Endereço: ${endereco}
+Valor Total: ${valor}
+Data: ${new Date().toLocaleString()}
+        `;
+
+        fetch(`https://portal.ecta.com.br/gerenciamento/EnviarEmailEcta?Assunto=PEDIDO CAIXA CELULAR&Mensagem=${encodeURIComponent(mensagemEmail)}`)
+            .then(response => {
+                console.log("Email enviado com sucesso");
                 limparFormulario();
-            },
-            function(error) {
+            })
+            .catch(error => {
                 console.error("Erro ao enviar email:", error);
-                alert("Erro ao enviar email. Verifique o console para mais detalhes.");
                 limparFormulario();
-            }
-        );
+            });
+
     } catch (error) {
         console.error("Erro:", error);
         limparFormulario();
